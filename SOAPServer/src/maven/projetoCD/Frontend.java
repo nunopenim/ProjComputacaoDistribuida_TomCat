@@ -20,14 +20,23 @@ public class Frontend {
             stub = (RMI_Interface) registry.lookup("test_connection");
 		} catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
-            e.printStackTrace();
         }
 	}
-	
+		
 	public String test() {
 		String response;
 		try {
 			response = stub.testFunc();
+			return response;
+		} catch (RemoteException e) {
+			return null;
+		}
+	}
+	
+	public String getResults() {
+		String response;
+		try {
+			response = stub.listarResultados();
 			return response;
 		} catch (RemoteException e) {
 			return null;
@@ -88,6 +97,17 @@ public class Frontend {
 		}
 	}
 	
+	public String winningItem() {
+		String response;
+		try {
+			response = stub.winningItem();
+			return response;
+		}
+		catch (RemoteException e) {
+			return null;
+		}
+	}
+	
 	public boolean hasVoted(String uid) {
 		boolean response = false;
 		try {
@@ -110,4 +130,101 @@ public class Frontend {
 		return response;
 	}
 	
+	public boolean rmuser(String uid) {
+		boolean response = false;
+		try {
+			response = stub.removeUserFromVoters(uid);
+		}
+		catch (RemoteException e) {
+			return false;
+		}
+		return response;
+	}
+	
+	public boolean hasStarted() {
+		boolean response = false;
+		try {
+			response = stub.hasStarted();
+		}
+		catch (RemoteException e) {
+			return false;
+		}
+		return response;
+	}
+	
+	public boolean hasEnded() {
+		boolean response = false;
+		try {
+			response = stub.hasEnded();
+		}
+		catch (RemoteException e) {
+			return false;
+		}
+		return response;
+	}
+	
+	public long startTime() {
+		long total = 0;
+		try {
+			total = stub.startTime();
+			return total; 
+		}
+		catch (RemoteException e) {
+			return 0;
+		}
+	}
+	
+	public long sLength() {
+		long total = 0;
+		try {
+			total = stub.sessionLength();
+			return total; 
+		}
+		catch (RemoteException e) {
+			return 0;
+		}
+	}
+	
+	public boolean setStartTime(long epoch) {
+		boolean response = false;
+		try {
+			response = stub.setStarting(epoch);
+		}
+		catch (RemoteException e) {
+			return false;
+		}
+		return response;
+	}
+
+	public boolean setLength(long seconds) {
+		boolean response = false;
+		try {
+			response = stub.setLength(seconds);
+		}
+		catch (RemoteException e) {
+			return false;
+		}
+		return response;
+	}
+	
+	public String getAllUsers() {
+		String response;
+		try {
+			response = stub.getAllVoters();
+			return response;
+		} catch (RemoteException e) {
+			return null;
+		}
+	}
+	
+	public String getAllUsersInSession() {
+		String response;
+		try {
+			response = stub.getAllSessionVoters();
+			return response;
+		} catch (RemoteException e) {
+			return null;
+		}
+	}
 }
+
